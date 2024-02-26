@@ -30,44 +30,51 @@ import kotlinx.coroutines.delay
 
 
 @Composable
-fun WeatherSplashScreen(navController: NavController){
+fun WeatherSplashScreen(navController: NavController) {
+    val defaultCity = "Mumbai"
     val scale = remember {
         Animatable(0f)
     }
 
     LaunchedEffect(key1 = true, block = {
         scale.animateTo(targetValue = 0.9f,
-                        animationSpec = tween(
-                            durationMillis = 1200,
-                            easing = {
-                                OvershootInterpolator(8f)
-                                    .getInterpolation(it)
-                            }))
-        delay(2000)
-        navController.navigate(WeatherScreens.MainScreen.name)
-    })
+            animationSpec = tween(
+                durationMillis = 800,
+                easing = {
+                    OvershootInterpolator(8f)
+                        .getInterpolation(it)
+                }))
+
+        delay(2000L)
+        navController.navigate(WeatherScreens.MainScreen.name +"/$defaultCity")
+    } )
+
+
+
 
     Surface(
-        Modifier
+        modifier = Modifier
             .padding(15.dp)
             .size(330.dp)
             .scale(scale.value),
         shape = CircleShape,
-        border = BorderStroke(width = 2.dp,color= Color.LightGray)
+        color = Color.White,
+        border = BorderStroke(
+            width = 2.dp, color = Color.LightGray
+        )
     ) {
-        Column(
-            Modifier.padding(1.dp),
+        Column(modifier = Modifier.padding(1.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement= Arrangement.Center
-        ) {
+            verticalArrangement = Arrangement.Center) {
             Image(painter = painterResource(id = R.drawable.sun),
-                contentDescription = "Sunny icon",
+                contentDescription = "sunny icon",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(95.dp))
-            Text(text = "Find the sun?",
-                style = MaterialTheme.typography.headlineMedium,
-                color = Color.LightGray
-            )
+            Text(text = "Find the Sun?",
+                style = MaterialTheme.typography.headlineSmall,
+                color = Color.LightGray)
         }
+
+
     }
 }
